@@ -1,0 +1,11 @@
+--- # APACHE2_MODULE EXAMPLE
+- hosts: all
+  remote_user: ansible
+  sudo: yes
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Installing telnet package
+    yum:
+      name: telnet
+      state: present

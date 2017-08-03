@@ -1,0 +1,22 @@
+--- # This is a YAML file to install JDK8 From the BAMS Repository
+- hosts: all
+  remote_user: Ansible
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: no
+  vars:
+    download_url: https://bams-amers-sami.int.thomsonreuters.com/artifactory/default.yum.local/corp-techops/jdk8/jdk-8u141-linux-x64.rpm
+    download_folder: /opt
+    java_name: "{{download_folder}}/jdk1.8.0_141"
+    java_archive: "{{download_folder}}/jdk-8u141-linux-x64.tar.gz"
+  tasks:
+  - name: Download Java
+    command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}"
+  - name: Unpack archive
+    command: "tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_name}}"
+  - name: Fix ownership
+    file: state=directory path={{java_name}} owner=root group=root recurse=yes
+  - name: Make Java available for system
+    command: 'alternatives --install "/usr/bin/java" "java" "{{java_name}}/bin/java" 2000'
+  - name: Clean up

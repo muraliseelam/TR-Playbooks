@@ -1,0 +1,6 @@
+- name: "Deploy to the DEP servers"
+  hosts: tag_techops_dep
+  become: true
+
+  roles:
+    - { role: config, tags: config }

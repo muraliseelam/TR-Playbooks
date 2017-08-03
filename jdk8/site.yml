@@ -1,0 +1,6 @@
+---
+# created-on: 2017-07-18
+- hosts: all
+	roles:
+	- role: windows2016jdk8
+	- role: amazonlinuxjdk8
